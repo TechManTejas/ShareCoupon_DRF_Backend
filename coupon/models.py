@@ -6,10 +6,10 @@ class Coupon(models.Model):
     image = models.ImageField(upload_to='coupons/', null=True, blank=True)
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    chat = models.JSONField(blank=True, null=True)
-    status = models.CharField(max_length=20, blank=True)
-    category = models.CharField(max_length=50, blank=True, default=None)
+    status = models.CharField(max_length=20, blank=True, default="Active")
+    category = models.CharField(max_length=50, blank=True, null=True, default=None)
     likes = models.IntegerField(default=0, blank=True, null=True)
+    chats = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.title

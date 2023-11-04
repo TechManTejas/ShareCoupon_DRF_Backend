@@ -20,6 +20,7 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 
+from user.views import CustomObtainAuthToken
 from coupon.views import CouponPrivateViewSet, CouponPublicViewSet
 from user.views import UserModelViewSet
 
@@ -31,4 +32,5 @@ router.register('my-coupons', CouponPrivateViewSet, basename='my-coupons')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path('auth/', CustomObtainAuthToken.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

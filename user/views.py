@@ -13,11 +13,12 @@ class UserModelViewSet(viewsets.ModelViewSet):
     authentication_classes = []
     permission_classes = [AllowAny]
 
-    def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
-        Token.objects.create(user=user)
+    def create(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = User.objects.create_user(**serializer.validated_data)
         token = Token.objects.create(user=user)
-        return {'user': user, 'token': token.key}
+        return Response({'token': token.key, 'user': str(token.user)})
 
 
 class CustomObtainAuthToken(ObtainAuthToken):
@@ -25,4 +26,4 @@ class CustomObtainAuthToken(ObtainAuthToken):
         response = super(CustomObtainAuthToken, self).post(
             request, *args, **kwargs)
         token = Token.objects.get(key=response.data['token'])
-        return Response({'token': token.key})
+        return Response({'token': token.key, 'user': str(token.user)})
