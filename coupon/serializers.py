@@ -6,4 +6,3 @@ class CouponSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = Coupon
-        fields = '__all__'
